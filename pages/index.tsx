@@ -9,6 +9,7 @@ const Home: NextPage = () => {
   return (
     <div>
       <Button mainType={"Primary"} label={"Hi"} onClick={handleClick}></Button>
+      
     </div>
   )
 }

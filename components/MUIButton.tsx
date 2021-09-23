@@ -1,33 +1,33 @@
-import React, { FunctionComponent } from "react";
-import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core";
-import { Theme } from "@material-ui/core/styles"
-import createStyles from '@material-ui/core/styles/createStyles'
+import React, { FunctionComponent } from "react"
+import Button from "@material-ui/core/Button"
+import { makeStyles } from "@material-ui/core"
 
 export interface MUIButtonProps {
-  variant: "text" | "contained" | "outlined" | "red";
-  color: 'inherit' | 'primary' | 'secondary' | 'default'
+  variant: "text" | "contained" | "outlined"
+  color: "inherit" | "primary" | "secondary" | "default"
+  backgroundColor: string
 }
+
+const useStyles = makeStyles({
+  root: {
+    background: "red",
+  },
+})
 
 export const MUIButton: FunctionComponent<MUIButtonProps> = (
   props: MUIButtonProps
 ) => {
-  const styles = useStyles()
+  const classes = useStyles()
+
   return (
     <>
-      {props.variant === "red" ? (
-        <Button className={styles.buttonBackgroundColor}>Text</Button>
+      {props.backgroundColor === "red" ? (
+        <Button className={classes.root}>Text</Button>
       ) : (
-        <Button variant={props.variant} color={props.color}>Text</Button>
+        <Button variant={props.variant} color={props.color}>
+          Text
+        </Button>
       )}
     </>
-  );
-};
-
-const useStyles = makeStyles<Theme>((theme) => {
-    createStyles({
-        buttonBackgroundColor: {
-            backgroundColor: "red"
-        }
-    })
-})
+  )
+}
