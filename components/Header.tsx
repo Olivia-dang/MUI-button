@@ -1,7 +1,59 @@
-import React from 'react';
+import React, { FunctionComponent } from "react";
+import { Button } from "./Button";
+import sakuraPic from "../public/sakura.png";
 
-import { Button } from './Button';
-import '../styles/header.css';
+import { styled, alpha } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Box from "@material-ui/core/Box";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import InputBase from "@material-ui/core/InputBase";
+import MenuIcon from "@material-ui/icons/Menu";
+import SearchIcon from "@material-ui/icons/Search";
+import { makeStyles } from "@material-ui/core";
+
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginLeft: 0,
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    marginLeft: theme.spacing(1),
+    width: "auto",
+  },
+}));
+
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: "inherit",
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      width: "12ch",
+      "&:focus": {
+        width: "20ch",
+      },
+    },
+  },
+}));
 
 interface HeaderProps {
   user?: {};
@@ -10,39 +62,101 @@ interface HeaderProps {
   onCreateAccount: () => void;
 }
 
-export const Header = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps) => (
-  <header>
-    <div className="wrapper">
-      <div>
-        <img src=""/>
-        <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-          <g fill="none" fillRule="evenodd">
-            <path
-              d="M10 0h12a10 10 0 0110 10v12a10 10 0 01-10 10H10A10 10 0 010 22V10A10 10 0 0110 0z"
-              fill="#FFF"
+const useStyles = makeStyles({
+  root: {
+    size: "large",
+    mr: 2,
+  },
+});
+const useTypoStyles = makeStyles({
+  root: {
+    flexGrow: 1,
+    xs: "none",
+    sm: "block",
+  },
+});
+
+export const Header: FunctionComponent = ({
+  user,
+  onLogin,
+  onLogout,
+  onCreateAccount,
+}: HeaderProps) => {
+  const iconClasses = useStyles();
+  const typoClasses = useTypoStyles();
+
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <img className="image" width="32" height="32" src={sakuraPic} />
+          <IconButton
+            className={iconClasses.root}
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            className={typoClasses.root}
+            variant="h6"
+            noWrap
+            component="div"
+          >
+            Sakura Wedding
+          </Typography>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ "aria-label": "search" }}
             />
-            <path
-              d="M5.3 10.6l10.4 6v11.1l-10.4-6v-11zm11.4-6.2l9.7 5.5-9.7 5.6V4.4z"
-              fill="#555AB9"
-            />
-            <path
-              d="M27.2 10.6v11.2l-10.5 6V16.5l10.5-6zM15.7 4.4v11L6 10l9.7-5.5z"
-              fill="#91BAF8"
-            />
-          </g>
-        </svg>
-        <h1>Acme</h1>
-      </div>
-      <div>
-        {user ? (
-          <Button size="small" onClick={onLogout} label="Log out" />
-        ) : (
-          <>
-            <Button size="small" onClick={onLogin} label="Log in" />
-            <Button size="small" onClick={onCreateAccount} label="Sign up" />
-          </>
-        )}
-      </div>
-    </div>
-  </header>
-);
+          </Search>
+          <div>
+            {user ? (
+              <Button size="small" onClick={onLogout} label="Log out" />
+            ) : (
+              <>
+                <Button size="small" onClick={onLogin} label="Log in" />
+                <Button
+                  size="small"
+                  onClick={onCreateAccount}
+                  label="Sign up"
+                />
+              </>
+            )}
+          </div>
+        </Toolbar>
+      </AppBar>
+    </Box>
+  );
+};
+
+//    <header>
+//   <div className="wrapper">
+//     <div>
+//       <div>
+//         <img className="image" width="32" height="32" src={sakuraPic} />
+//         <h1>Acme</h1>
+//       </div>
+//       <div>
+//         <ul>
+//           <li></li>
+//         </ul>
+//       </div>
+//     </div>
+//     <div>
+//       {user ? (
+//         <Button size="small" onClick={onLogout} label="Log out" />
+//       ) : (
+//         <>
+//           <Button size="small" onClick={onLogin} label="Log in" />
+//           <Button size="small" onClick={onCreateAccount} label="Sign up" />
+//         </>
+//       )}
+//     </div>
+//   </div>
+// </header>

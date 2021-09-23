@@ -7,7 +7,7 @@
   justify-content: space-between;
 }
 
-svg {
+.image {
   display: inline-block;
   vertical-align: top;
 }
